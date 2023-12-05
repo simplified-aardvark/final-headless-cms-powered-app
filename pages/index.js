@@ -1,8 +1,6 @@
-import { Container } from "@chakra-ui/react";
-import Auth from "../components/Auth";
 import TodoList from "../components/TodoList";
 import CalendarEventList from "@/components/CalendarEventList";
-import { Fragment } from "react";
+import ContactList from "@/components/ContactList";
 
 export default function Home() {
     return (
@@ -10,6 +8,8 @@ export default function Home() {
             <TodoList />
             <hr></hr>
             <CalendarEventList />
+            <hr></hr>
+            <ContactList />
         </>
     );
 }

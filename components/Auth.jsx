@@ -4,6 +4,7 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { FaGoogle, FaMoon, FaSun } from "react-icons/fa";
 import { auth } from "../firebase";
 import useAuth from "../hooks/useAuth";
+
 const Auth = () => {
     const { toggleColorMode, colorMode } = useColorMode();
     const { isLoggedIn, user } = useAuth();
@@ -42,12 +43,15 @@ const Auth = () => {
                 <Link href="/add-calendar-event">Add Calendar Event</Link>
             </Box>
             <Box>
+                <Link href="/add-contact">Add Contact</Link>
+            </Box>
+            <Box>
                 <Link href="/">List All To-Dos/Events</Link>
             </Box>
             <Box textAlign="right">
-                <Button onClick={() => toggleColorMode()}>
-                    {colorMode == "dark" ? <FaSun /> : <FaMoon />}
-                </Button>{" "}
+                {/* <Button onClick={() => toggleColorMode()}> */}
+                    {/* {colorMode == "dark" ? <FaSun /> : <FaMoon />} */}
+                {/* </Button>{" "} */}
                 {isLoggedIn && (
                     <>
                     <Text color="green.500">{user.email}</Text>
@@ -65,4 +69,5 @@ const Auth = () => {
         </Box>
     );
 };
+
 export default Auth;

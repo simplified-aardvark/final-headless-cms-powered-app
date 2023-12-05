@@ -56,7 +56,7 @@ const TodoList = () => {
         
         <Box mt={5} mb={50}>
             <Center>
-                <Heading as="h1" mb={10}>To Do List</Heading>
+                <Heading as="h1" mb={10}>To-Dos</Heading>
             </Center>
 
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
@@ -71,7 +71,7 @@ const TodoList = () => {
                         key={todo.id}
                     >
                         <Heading as="h3" fontSize={"xl"}>
-                            <a href={"/todo/"+ todo.id}>{todo.title}{" "}</a>
+                            <a href={"/todo/"+ todo.id}>{todo.title}</a>
                             <Badge
                                 color="red.500"
                                 bg="inherit"
