@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
     Box,
     Input,
@@ -8,19 +9,21 @@ import {
     Select,
     useToast,
     Heading,
-    Center,
+    Text,
+    Center
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
-import { addTodo } from "../api/todo";
+import { addCalendarEvent } from "../api/calendar-event";
 
-const AddTodo = () => {
+const AddCalendarEvent = () => {
     const [title, setTitle] = React.useState("");
     const [description, setDescription] = React.useState("");
-    const [status, setStatus] = React.useState("pending");
+    const [event_date, set_event_date] = React.useState(""); 
+    const [statusText, setStatusText] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const toast = useToast();
     const { isLoggedIn, user } = useAuth();
-    const handleTodoCreate = async () => {
+    const handleEventCreate = async () => {
         if (!isLoggedIn) {
             toast({
                 title: "You must be logged in to create a todo",
@@ -34,20 +37,21 @@ const AddTodo = () => {
         const todo = {
             title,
             description,
-            status,
+            event_date,
             userId: user.uid,
         };
-        await addTodo(todo);
+        await addCalendarEvent(todo);
         setIsLoading(false);
         setTitle("");
         setDescription("");
-        setStatus("pending");
-        toast({ title: "Todo created successfully", status: "success" });
+        set_event_date("");
+        setStatusText("");
+        toast({ title: "Calendar Event created successfully", status: "success" });
     };
     return (
         <Box w="40%" margin={"0 auto"} display="block" mt={5}>
             <Stack direction="column">
-                <Center><Heading as="h2">Enter a New Task</Heading></Center>
+                <Center><Heading as="h2">Enter New Calendar Event</Heading></Center>
                 <Input
                     placeholder="Title"
                     value={title}
@@ -58,22 +62,31 @@ const AddTodo = () => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <Select value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option
-                        value={"pending"}
-                        style={{ color: "yellow", fontWeight: "bold" }}
-                    >
-                        Pending ⌛
-                    </option>
-                    <option
-                        value={"completed"}
-                        style={{ color: "green", fontWeight: "bold" }}
-                    >
-                        Completed ✅
-                    </option>
-                </Select>
+                <Input
+                    size="md"
+                    type="date"
+                    onChange={
+                        (e) => {
+                            let chosen_date = new Date(e.target.value);
+                            let date_now = new Date();
+                            set_event_date(chosen_date.getTime());
+
+                            if (chosen_date - date_now > 0) {
+                                console.log("future");
+                                setStatusText("Upcoming.");
+                            } else {
+                                console.log("past");
+                                setStatusText("Already Passed.");
+                            }
+                        }
+                    }
+                />
+                <Center>
+                    <Text height={"6"}>{statusText}</Text>
+                </Center>    
+                
                 <Button
-                    onClick={() => handleTodoCreate()}
+                    onClick={() => handleEventCreate()}
                     disabled={title.length < 1 || description.length < 1 || isLoading}
                     colorScheme="teal"
                     variant="solid"
@@ -84,4 +97,9 @@ const AddTodo = () => {
         </Box>
     );
 };
-export default AddTodo;
+
+export default AddCalendarEvent;
+
+function clipISOstring(str) {
+    return str.substring(0, str.length -14);
+}
