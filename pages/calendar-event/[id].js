@@ -68,7 +68,7 @@ export async function getServerSideProps(context) {
 
     if (docSnap.exists()) {
         itemData = docSnap.data();
-        itemData.status = findStatus(itemData.event_date);
+        // itemData.status = findStatus(itemData.event_date);
     }
 
     return {

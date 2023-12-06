@@ -8,12 +8,11 @@ import {
     Center
 } from "@chakra-ui/react";
 
-import React, { useEffect } from "react";
+import React from "react";
 import useAuth from "../hooks/useAuth";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../firebase";
 import { FaTrash } from "react-icons/fa";
 import { deleteContact } from "../api/contact";
+import { doUseEffect } from "@/api/use-effect";
 
 
 const ContactList = () => {
@@ -21,20 +20,7 @@ const ContactList = () => {
     const { user } = useAuth();
     const toast = useToast();
 
-    useEffect(() => {
-        if (!user) {
-            setContacts([]);
-            return;
-        }
-        const q = query(collection(db, "contact"), where("user", "==", user.uid));
-        onSnapshot(q, (querySnapchot) => {
-            let ar = [];
-            querySnapchot.docs.forEach((doc) => {
-            ar.push({ id: doc.id, ...doc.data() });
-            });
-            setContacts(ar);
-        });
-    }, [user]);
+    doUseEffect(setContacts, "contact", user);
 
     const handleContactDelete = async (id) => {
         if (confirm("Are you sure you wanna delete this contact?")) {
@@ -75,7 +61,7 @@ const ContactList = () => {
                                 }}
                                 float="right"
                                 size="xs"
-                                onClick={() => handleTodoDelete(todo.id)}
+                                onClick={() => handleContactDelete(todo.id)}
                             >
                                 <FaTrash />
                             </Badge>

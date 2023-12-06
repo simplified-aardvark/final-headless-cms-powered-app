@@ -4,8 +4,12 @@ import { ChakraProvider, Container } from "@chakra-ui/react";
 function MyApp({ Component, pageProps }) {
     return (
         <ChakraProvider>
-            <NavBar />
-            <Container maxW={"7xl"}>
+            <NavBar border={"solid black"}/>
+            <Container maxW={"7xl"} bg={"gray.100"} h={"100vh"}
+            boxShadow="2xl"
+            shadow={"dark-lg"}
+            
+            >
                 
                 {/* <Auth /> */}
                 <Component {...pageProps} />

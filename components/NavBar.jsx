@@ -17,7 +17,10 @@ import {
   useColorModeValue,
   useColorMode,
   Stack,
+  Spacer,
 } from '@chakra-ui/react';
+
+
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaGoogle, FaMoon, FaSun } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
@@ -107,7 +110,10 @@ export default function NavBar() {
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => toggleColorMode()}>
+
                       {colorMode == "dark" ? <FaSun /> : <FaMoon />}
+                      <Spacer/>
+                      {colorMode == "dark" ? "Switch to Light Mode" : "Switch to Light Mode"}
                 </MenuItem>
                 <MenuDivider />
                 {isLoggedIn && (

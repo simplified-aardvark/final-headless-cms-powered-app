@@ -7,12 +7,11 @@ import {
     useToast,
     Center
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import useAuth from "../hooks/useAuth";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../firebase";
 import { FaTrash } from "react-icons/fa"; 
 import { deleteEvent, findStatus } from "../api/calendar-event";
+import { doUseEffect } from "@/api/use-effect";
 
 
 const CalendarEventList = () => {
@@ -20,20 +19,7 @@ const CalendarEventList = () => {
     const {  user } = useAuth();
     const toast = useToast();
 
-    useEffect(() => {
-        if (!user) {
-            setCalendarEvents([]);
-            return;
-        }
-        const q = query(collection(db, "event"), where("user", "==", user.uid));
-        onSnapshot(q, (querySnapchot) => {
-            let ar = [];
-            querySnapchot.docs.forEach((doc) => {
-            ar.push({ id: doc.id, ...doc.data() });
-            });
-            setCalendarEvents(ar);
-        });
-    }, [user]);
+    doUseEffect(setCalendarEvents, "event", user);
 
     const handleEventDelete = async (id) => {
         if (confirm("Are you sure you wanna delete this calendar event?")) {
