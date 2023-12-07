@@ -5,7 +5,9 @@ import {
     SimpleGrid,
     Text,
     useToast,
-    Center
+    Center,
+    useColorModeValue,
+    Switch
 } from "@chakra-ui/react";
 
 import React from "react";
@@ -16,6 +18,20 @@ import { doUseEffect } from "@/api/use-effect";
 
 
 const ContactList = () => {
+    const secondaryTextColor = useColorModeValue("black", "gray.700");
+    const getRelColor = (rel) => {
+        switch (rel) {
+            case "Family":
+                return "green.300"
+
+            case "Friend":
+                return "yellow.200"
+        
+            default:         //assume Work
+                return "red.200"
+        }
+    }
+
     const [contacts, setContacts] = React.useState([]);
     const { user } = useAuth();
     const toast = useToast();
@@ -51,6 +67,15 @@ const ContactList = () => {
                             <a href={"/contact/"+ contact.id}>
                                 {contact.firstName + " " + contact.lastName}
                             </a>
+                            <Badge
+                                float="right"
+                                opacity="0.8"
+                                bg = {getRelColor(contact.relationship)}
+                                color={secondaryTextColor}
+                                py={"1px"}
+                            >
+                                {contact.relationship}
+                            </Badge>
                             <Badge
                                 color="red.500"
                                 bg="inherit"

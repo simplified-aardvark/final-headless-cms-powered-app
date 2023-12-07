@@ -5,7 +5,8 @@ import {
     SimpleGrid,
     Text,
     useToast,
-    Center
+    Center,
+    useColorModeValue
 } from "@chakra-ui/react";
 import React from "react";
 import { doUseEffect } from "@/api/use-effect";
@@ -15,6 +16,8 @@ import { deleteTodo, toggleTodoStatus } from "../api/todo";
 
 
 const TodoList = () => {
+    const secondaryTextColor = useColorModeValue("black", "#fff");
+
     const [todos, setTodos] = React.useState([]);
     const { user } = useAuth();
     const toast = useToast();
@@ -90,11 +93,15 @@ const TodoList = () => {
                                     float="right"
                                     opacity="0.8"
                                     bg={todo.status == "pending" ? "yellow.500" : "green.500"}
+                                    color={secondaryTextColor}
+                                    py={"1px"}
                                 >
                                     {todo.status}
                                 </Badge>
                             </Heading>
-                            <Text>{todo.description}</Text>
+                            <Text>
+                                {todo.description.length > 36 ? todo.description.substring(0,36)+"..." : todo.description}
+                            </Text>
                         </Box>
                     ))}
             </SimpleGrid>

@@ -26,8 +26,11 @@ const EventItem = ({itemData}) => {
     return (
         <>
             <Box bg={itemData.status == "Upcoming." ? "blue.100" : "purple.100"} padding={5}>
-                <Heading as="h3" fontsize= {"xl"} ml={2}>
-                {new Date(itemData.event_date).toLocaleDateString()}: {itemData.title}
+                <Heading as="h3" fontSize= {"xl"} ml={2}>
+                    {   
+                        new Date(itemData.event_date).toLocaleDateString() + " @ " 
+                        + new Date(itemData.event_date).toLocaleTimeString()
+                    }: {itemData.title}
                 </Heading>
 
                 <Text 

@@ -15,7 +15,9 @@ import {
     VStack,
     FormControl,
     FormLabel,
-    Select
+    Select,
+    useColorModeValue,
+    Textarea
 } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
 import { sendData } from '@/api/send-data';
@@ -23,6 +25,10 @@ import { serverSideFunc } from '@/api/server-side-func';
 
 
 const TodoItem = ({ itemData }) => {
+    const completedBgColor = useColorModeValue("green.200", "green.600");
+    const pendingBgColor = useColorModeValue("yellow.200", "yellow.600");
+    const secondaryTextColor = useColorModeValue("black", "gray.600");
+
     const [inputTitle, setInputTitle] = useState(itemData.title);
     const [inputDescription, setInputDescription] = useState(itemData.description);
     const [updatedOn, setUpdatedOn] = useState(itemData.updatedOn);
@@ -51,7 +57,7 @@ const TodoItem = ({ itemData }) => {
     return (
         <>
             <Container
-                bg={inputStatus == "pending" ? "yellow.200" : "green.200"}
+                bg={inputStatus == "pending" ? pendingBgColor : completedBgColor}
                 maxW={"container.xl"}
             >
                 <Flex justify={"center"} align={"center"} >
@@ -61,7 +67,7 @@ const TodoItem = ({ itemData }) => {
                                     {inputTitle}
                                 </Heading>
                                 <FormControl  >
-                                    <FormLabel ml={3}>Title</FormLabel>
+                                    <FormLabel ml={3}>Title:</FormLabel>
                                     <Input
                                         type="text"
                                         value={inputTitle}
@@ -71,8 +77,8 @@ const TodoItem = ({ itemData }) => {
                                     />
                                 </FormControl>
                                 <FormControl>
-                                    <FormLabel id={"description_label"}  ml={3}>Description</FormLabel>
-                                    <Input
+                                    <FormLabel id={"description_label"}  ml={3}>Description:</FormLabel>
+                                    <Textarea
                                         type="text"
                                         value={inputDescription}
                                         onChange={(e) => setInputDescription(e.target.value)}
@@ -83,23 +89,25 @@ const TodoItem = ({ itemData }) => {
                                     />
                                 </FormControl>
                                 <FormControl>
-                                <FormLabel id={"status_label"}  ml={3}>Status</FormLabel>
+                                <FormLabel id={"status_label"}  ml={3}>Status:</FormLabel>
                                     <Select 
-                                        border={"solid black"}
+                                        border={"solid"}
                                         bg={inputStatus == "pending" ? "yellow.400" : "green.400"}
-                                        value={inputStatus == "pending" ? "Pending" : "Completed"}
-                                        onChange = { (e) => setStatus((e.target.value == "Pending" ? "pending" : "completed")) }
+                                        value={inputStatus == "pending" ? "Pending ⌛" : "Completed ✅"}
+                                        color={secondaryTextColor}
+                                        onChange = { (e) => setStatus((e.target.value == "Pending ⌛" ? "pending" : "completed")) }
                                     >
-                                        <option>Pending</option>
-                                        <option>Completed</option>
+                                        <option>Pending ⌛</option>
+                                        <option>Completed ✅</option>
                                     </Select>   
                                 </FormControl>
                             </VStack>
                         <Center>
                             <Button
-
+                                mt={2}
                                 onClick={() => hondleTodoUpdate()}
                                 w={["100%", null, "20vw"]}
+                                colorScheme={"blue"}
                             >
                                 Update
                             </Button>
@@ -110,7 +118,6 @@ const TodoItem = ({ itemData }) => {
                                 fontSize={"small"}
                             >
                                 Created On: {new Date(itemData.createdAt).toLocaleDateString()}
-
                             </Text>
                             <Text
                                 padding={2}

@@ -13,12 +13,13 @@ import {
     Center
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
-import { addCalendarEvent } from "../api/calendar-event";
+import { addCalendarEvent, formatDate } from "../api/calendar-event";
+import { chain } from "react-aria";
 
 const AddCalendarEvent = () => {
     const [title, setTitle] = React.useState("");
     const [description, setDescription] = React.useState("");
-    const [event_date, set_event_date] = React.useState(""); 
+    const [event_date, set_event_date] = React.useState(formatDate(new Date())); 
     const [statusText, setStatusText] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
     const toast = useToast();
@@ -34,13 +35,13 @@ const AddCalendarEvent = () => {
             return;
         }
         setIsLoading(true);
-        const todo = {
+        const calendar_event = {
             title,
             description,
             event_date,
             userId: user.uid,
         };
-        await addCalendarEvent(todo);
+        await addCalendarEvent(calendar_event);
         setIsLoading(false);
         setTitle("");
         setDescription("");
@@ -64,14 +65,15 @@ const AddCalendarEvent = () => {
                 />
                 <Input
                     size="md"
-                    type="date"
+                    type="datetime-local"
+                    value={event_date}
                     onChange={
                         (e) => {
-                            let chosen_date = new Date(e.target.value);
-                            let date_now = new Date();
-                            set_event_date(chosen_date.getTime());
 
-                            if (chosen_date - date_now > 0) {
+                            let chosen_date = e.target.value;
+                            let date_now = new Date();
+                            set_event_date(chosen_date);
+                            if (new Date(chosen_date).getTime() - date_now > 0) {
                                 console.log("future");
                                 setStatusText("Upcoming.");
                             } else {

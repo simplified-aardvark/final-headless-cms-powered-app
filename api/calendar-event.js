@@ -36,8 +36,21 @@ const deleteEvent = async (docId) => {
     }
 };
 
+const formatDate = (event_date) => {
+    let d = new Date(event_date);
+    let year = d.getFullYear();
+    let month = d.getMonth()+1 < 10 ? "0"+d.getMonth()+1 : d.getMonth()+1;
+    let day = d.getDate() < 10 ? "0"+d.getDate() : d.getDate();
+    let hour = d.getHours() < 10 ? "0"+d.getHours() : d.getHours();
+    let min = d.getMinutes < 10 ? "0"+d.getMinutes() : d.getMinutes();
+    let formattedDateStr = year+"-"+month+"-"+day+"T"+hour+":"+min;
+        
+    return formattedDateStr
+}
+
 export { 
     addCalendarEvent,
     findStatus,
-    deleteEvent 
+    deleteEvent,
+    formatDate 
 };

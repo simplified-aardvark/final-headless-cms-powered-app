@@ -82,7 +82,7 @@ export default function NavBar() {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Box ml={[0, 0, 10]} fontWeight={800}>
-              THE APP
+              <a href="/">THE APP</a>
             </Box>
             <HStack
               as={'nav'}

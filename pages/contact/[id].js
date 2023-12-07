@@ -24,7 +24,7 @@ const ContactItem = ({itemData}) => {
     return (
         <>
             <Box bg={"yellow"} padding={5}>
-                <Heading as="h3" fontsize= {"xl"} ml={2}>
+                <Heading as="h3" fontSize= {"xl"} ml={2}>
                     {itemData.firstName + " " + itemData.lastName}
                 </Heading>
 

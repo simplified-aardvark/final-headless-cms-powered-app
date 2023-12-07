@@ -5,7 +5,8 @@ import {
     SimpleGrid,
     Text,
     useToast,
-    Center
+    Center,
+    useColorModeValue
 } from "@chakra-ui/react";
 import React from "react";
 import useAuth from "../hooks/useAuth";
@@ -15,6 +16,8 @@ import { doUseEffect } from "@/api/use-effect";
 
 
 const CalendarEventList = () => {
+    const secondaryTextColor = useColorModeValue("black", "gray.800")
+
     const [calendar_events, setCalendarEvents] = React.useState([]);
     const {  user } = useAuth();
     const toast = useToast();
@@ -66,11 +69,16 @@ const CalendarEventList = () => {
                                 float="right"
                                 opacity="0.8"
                                 bg={findStatus(calendar_event.event_date) == "Already Passed." ? "purple.200" : "blue.300"}
+                                color={secondaryTextColor}
+                                py={"1px"}
                             >
                                 {findStatus(calendar_event.event_date)}
                             </Badge>
                         </Heading>
-                        <Text>{new Date(calendar_event.event_date).toLocaleDateString()}</Text>
+                        <Text>{
+                            new Date(calendar_event.event_date).toLocaleDateString() + " @ " 
+                            + new Date(calendar_event.event_date).toLocaleTimeString()
+                        }</Text>
                     </Box>
                 ))}
             </SimpleGrid>
