@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
             <Container maxW={"7xl"} bg={"gray.100"} h={"100vh"}
             boxShadow="2xl"
             shadow={"dark-lg"}
-            
+            padding={0}
             >
                 
                 {/* <Auth /> */}

@@ -49,7 +49,7 @@ const AddCalendarEvent = () => {
         toast({ title: "Calendar Event created successfully", status: "success" });
     };
     return (
-        <Box w="40%" margin={"0 auto"} display="block" mt={5}>
+        <Box w="40%" margin={"0 auto"} display="block">
             <Stack direction="column">
                 <Center><Heading as="h2">Enter New Calendar Event</Heading></Center>
                 <Input

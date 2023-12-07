@@ -50,7 +50,7 @@ const AddContact = () => {
         toast({ title: "Contact created successfully", status: "success" });
     };
     return (
-        <Box w="40%" margin={"0 auto"} display="block" mt={5}>
+        <Box w="40%" margin={"0 auto"} display="block">
             <Stack direction="column">
                 <Center><Heading as="h2">Enter a New Contact</Heading></Center>
                 <Input

@@ -45,7 +45,7 @@ const AddTodo = () => {
         toast({ title: "Todo created successfully", status: "success" });
     };
     return (
-        <Box w="40%" margin={"0 auto"} display="block" mt={5}>
+        <Box w="40%" margin={"0 auto"} display="block">
             <Stack direction="column">
                 <Center><Heading as="h2">Enter a New Task</Heading></Center>
                 <Input
@@ -84,4 +84,5 @@ const AddTodo = () => {
         </Box>
     );
 };
+
 export default AddTodo;
