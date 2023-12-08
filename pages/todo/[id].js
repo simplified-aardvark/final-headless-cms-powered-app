@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import {
-    Box,
     Heading,
     Text,
-    InputGroup,
     Input,
     Button,
-    Stack,
     HStack,
     useToast,
     Center,
@@ -31,9 +28,10 @@ const TodoItem = ({ itemData }) => {
 
     const [inputTitle, setInputTitle] = useState(itemData.title);
     const [inputDescription, setInputDescription] = useState(itemData.description);
-    const [updatedOn, setUpdatedOn] = useState(itemData.updatedOn);
     const [inputStatus, setStatus] = useState(itemData.status);
-    const [statusMsg, setStatusMsg] = useState('');
+
+    const [updatedOn, setUpdatedOn] = useState(itemData.updatedOn);
+
     const toast = useToast();
     const { user } = useAuth() || {};
 
@@ -44,14 +42,20 @@ const TodoItem = ({ itemData }) => {
     let data = {
         title: inputTitle,
         description: inputDescription,
-        updatedOn: updatedOn,
-        status: inputStatus
+        status: inputStatus,
+        updatedOn: updatedOn
     };
 
     const hondleTodoUpdate = async () => {
-        setUpdatedOn(new Date().getTime());
-        await sendData(itemData.docId, "todo", data, setStatusMsg);
-        toast({ title: "Todo updated successfully", status: "success" });
+        data.updatedOn = new Date().getTime();
+        let sendDataResponse = await sendData(itemData.docId, "todo", data)
+
+        if (sendDataResponse) {
+            setUpdatedOn(data.updatedOn);
+            toast({ title: "Todo updated successfully.", status: "success" });
+        } else {
+            toast({ title: "Todo failed to update.", status: "success" });
+        }        
     }
 
     return (
@@ -63,7 +67,7 @@ const TodoItem = ({ itemData }) => {
                 <Flex justify={"center"} align={"center"} >
                     <VStack width={"100%"}>
                             <VStack spacing={2} alignItems={'flex-start'} width={["100%", null, "80%"]}>
-                                <Heading as="h2" ml={2} mb={2} alignSelf={"center"}>
+                                <Heading as="h2" mt={4} mb={2} alignSelf={"center"}>
                                     {inputTitle}
                                 </Heading>
                                 <FormControl  >

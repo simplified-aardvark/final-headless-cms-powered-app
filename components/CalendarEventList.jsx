@@ -11,14 +11,33 @@ import {
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import { FaTrash } from "react-icons/fa"; 
-import { deleteEvent, findStatus } from "../api/calendar-event";
+import { deleteEvent, findStatus, formatDateAtTime } from "../api/calendar-event";
 import { doUseEffect } from "@/api/use-effect";
 
 
 const CalendarEventList = () => {
-    const secondaryTextColor = useColorModeValue("black", "gray.800")
-
     const [calendar_events, setCalendarEvents] = React.useState([]);
+
+    const upcomingBgColor = useColorModeValue("blue.200", "blue.600");
+    const passedBgColor = useColorModeValue("purple.200", "purple.600");
+    const todayBgColor = useColorModeValue("green.200", "green.600");
+    const secondaryTextColor = useColorModeValue("black", "gray.50");
+
+    const bgColorSelect = (status) => {
+        switch (status) {
+            case "Upcoming":
+                return upcomingBgColor;
+
+            case "Already Passed":
+                return passedBgColor;
+        
+            default:         //assume Today
+                return todayBgColor;
+        }
+    }
+
+
+
     const {  user } = useAuth();
     const toast = useToast();
 
@@ -68,7 +87,7 @@ const CalendarEventList = () => {
                             <Badge
                                 float="right"
                                 opacity="0.8"
-                                bg={findStatus(calendar_event.event_date) == "Already Passed." ? "purple.200" : "blue.300"}
+                                bg={bgColorSelect(findStatus(calendar_event.event_date))}
                                 color={secondaryTextColor}
                                 py={"1px"}
                             >
@@ -76,8 +95,7 @@ const CalendarEventList = () => {
                             </Badge>
                         </Heading>
                         <Text>{
-                            new Date(calendar_event.event_date).toLocaleDateString() + " @ " 
-                            + new Date(calendar_event.event_date).toLocaleTimeString()
+                            formatDateAtTime(calendar_event.event_date)
                         }</Text>
                     </Box>
                 ))}

@@ -2,12 +2,12 @@ import { db } from "../firebase";
 import {
     collection,
     addDoc,
-    updateDoc,
     doc,
     deleteDoc,
 } from "firebase/firestore";
+import { useColorModeValue } from "@chakra-ui/react";
 
-const addContact = async ({ userId, firstName, lastName, email, phone, relationship }) => {
+const addContact = async ({ userId, firstName, lastName, email, phone, relationship}) => {
     try {
         await addDoc(collection(db, "contact"), {
             user: userId,
@@ -17,6 +17,7 @@ const addContact = async ({ userId, firstName, lastName, email, phone, relations
             phone: phone,
             relationship: relationship,
             createdAt: new Date().getTime(),
+            updatedOn: createdAt
         });
     } catch (err) { }
 };
@@ -29,4 +30,20 @@ const deleteContact = async (docId) => {
         console.log(err);
     }
 };
-export { addContact, deleteContact };
+
+
+const getRelColor = (rel) => {
+    switch (rel) {
+        case "Family":
+            return "green.400"
+
+        case "Friend":
+            return "yellow.400"
+    
+        default:         //assume Work
+            return "red.400"
+    }
+}
+
+
+export { addContact, deleteContact, getRelColor};

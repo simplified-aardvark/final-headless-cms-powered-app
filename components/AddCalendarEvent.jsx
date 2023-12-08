@@ -13,8 +13,7 @@ import {
     Center
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
-import { addCalendarEvent, formatDate } from "../api/calendar-event";
-import { chain } from "react-aria";
+import { addCalendarEvent, findStatus, formatDate } from "../api/calendar-event";
 
 const AddCalendarEvent = () => {
     const [title, setTitle] = React.useState("");
@@ -69,17 +68,8 @@ const AddCalendarEvent = () => {
                     value={event_date}
                     onChange={
                         (e) => {
-
-                            let chosen_date = e.target.value;
-                            let date_now = new Date();
-                            set_event_date(chosen_date);
-                            if (new Date(chosen_date).getTime() - date_now > 0) {
-                                console.log("future");
-                                setStatusText("Upcoming.");
-                            } else {
-                                console.log("past");
-                                setStatusText("Already Passed.");
-                            }
+                            setStatusText(findStatus(e.target.value));
+                            set_event_date(e.target.value)
                         }
                     }
                 />
@@ -102,6 +92,3 @@ const AddCalendarEvent = () => {
 
 export default AddCalendarEvent;
 
-function clipISOstring(str) {
-    return str.substring(0, str.length -14);
-}

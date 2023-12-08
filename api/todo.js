@@ -15,6 +15,7 @@ const addTodo = async ({ userId, title, description, status }) => {
             description: description,
             status: status,
             createdAt: new Date().getTime(),
+            updatedOn: createdAt
         });
     } catch (err) { }
 };

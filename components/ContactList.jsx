@@ -7,7 +7,6 @@ import {
     useToast,
     Center,
     useColorModeValue,
-    Switch
 } from "@chakra-ui/react";
 
 import React from "react";
@@ -18,21 +17,29 @@ import { doUseEffect } from "@/api/use-effect";
 
 
 const ContactList = () => {
-    const secondaryTextColor = useColorModeValue("black", "gray.700");
-    const getRelColor = (rel) => {
+    const secondaryTextColor = useColorModeValue("black", "white");
+
+    const [contacts, setContacts] = React.useState([]);
+
+    const familyBgColor = useColorModeValue("green.300", "green.600");
+    const friendBgColor = useColorModeValue("yellow.200", "yellow.500");
+    const workBgColor = useColorModeValue("red.200", "red.600");
+
+    const bgColorSelect = (rel) => {
         switch (rel) {
             case "Family":
-                return "green.300"
+                return familyBgColor;
 
             case "Friend":
-                return "yellow.200"
+                return friendBgColor;
         
             default:         //assume Work
-                return "red.200"
+                return workBgColor;
         }
     }
 
-    const [contacts, setContacts] = React.useState([]);
+
+
     const { user } = useAuth();
     const toast = useToast();
 
@@ -70,7 +77,7 @@ const ContactList = () => {
                             <Badge
                                 float="right"
                                 opacity="0.8"
-                                bg = {getRelColor(contact.relationship)}
+                                bg = {bgColorSelect(contact.relationship)}
                                 color={secondaryTextColor}
                                 py={"1px"}
                             >

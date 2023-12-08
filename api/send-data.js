@@ -3,21 +3,25 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-const sendData = async (docId, coll, data, statusSetter) => {
+const sendData = async (docId, coll, data) => {
     const docRef = doc(db, coll, docId);
-    updateDoc(
+    let isUpdated = false;
+
+    await updateDoc(
         docRef,
         data
     ).then(
         docRef => {
-            statusSetter("Updated!");
+            console.log("Successfully Updated!");
+            isUpdated = !isUpdated
         }
     ).catch(
         error => {
             console.log(error);
-            statusSetter("Error!");
         }
     );
+
+    return isUpdated;
 }
 
 export {sendData}
