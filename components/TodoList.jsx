@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
     Badge,
     Box,
@@ -8,17 +9,17 @@ import {
     Center,
     useColorModeValue
 } from "@chakra-ui/react";
-import React from "react";
 import { doUseEffect } from "@/api/use-effect";
 import useAuth from "../hooks/useAuth";
 import { FaToggleOff, FaToggleOn, FaTrash } from "react-icons/fa";
-import { deleteTodo, toggleTodoStatus } from "../api/todo";
+import { toggleTodoStatus } from "../api/todo";
+import { deleteRecord } from '@/api/delete-record';
 
 
 const TodoList = () => {
     const secondaryTextColor = useColorModeValue("black", "#fff");
 
-    const [todos, setTodos] = React.useState([]);
+    const [todos, setTodos] = useState([]);
     const { user } = useAuth();
     const toast = useToast();
 
@@ -26,7 +27,7 @@ const TodoList = () => {
 
     const handleTodoDelete = async (id) => {
         if (confirm("Are you sure you wanna delete this todo?")) {
-            deleteTodo(id);
+            deleteRecord(id, "todo");
             toast({ title: "Todo deleted successfully", status: "success" });
         }
     };
@@ -47,7 +48,7 @@ const TodoList = () => {
                 <Heading as="h1" mb={10}>To-Dos</Heading>
             </Center>
 
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            <SimpleGrid columns={{ base: 1 ,md: 2, lg: 3 }} spacing={8}>
                 {todos &&
                     todos.map((todo) => (
                         <Box

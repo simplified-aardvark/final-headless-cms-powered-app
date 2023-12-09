@@ -1,23 +1,33 @@
-import React from "react";
+import React, { useState } from 'react';
 import {
-    Box,
     Input,
     Button,
     Textarea,
-    Stack,
     Select,
     useToast,
     Heading,
     Center,
+    Container,
+    useColorModeValue,
+    Flex,
+    VStack,
+    FormControl,
+    FormLabel,
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
 import { addTodo } from "../api/todo";
+import { addRecord } from '@/api/add-record';
 
 const AddTodo = () => {
-    const [title, setTitle] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [status, setStatus] = React.useState("pending");
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [inputTitle, setInputTitle] = useState("");
+    const [headerTitle, setHeaderTitle] = useState("Title")
+    const [inputDescription, setInputDescription] = useState("");
+    const [inputStatus, setInputStatus] = useState("pending");
+
+    const completedBgColor = useColorModeValue("green.200", "green.600");
+    const pendingBgColor = useColorModeValue("yellow.200", "yellow.600");
+    const secondaryTextColor = useColorModeValue("black", "gray.600");
+
     const toast = useToast();
     const { isLoggedIn, user } = useAuth();
     const handleTodoCreate = async () => {
@@ -30,58 +40,95 @@ const AddTodo = () => {
             });
             return;
         }
-        setIsLoading(true);
+
         const todo = {
-            title,
-            description,
-            status,
-            userId: user.uid,
+            title: inputTitle,
+            description: inputDescription,
+            status: inputStatus,
+            user: user.uid,
         };
-        await addTodo(todo);
-        setIsLoading(false);
-        setTitle("");
-        setDescription("");
-        setStatus("pending");
-        toast({ title: "Todo created successfully", status: "success" });
+        
+        let sendDataResponse = await addRecord("todo", todo);
+
+        if (sendDataResponse) {
+            setInputTitle(" ");
+            setHeaderTitle("Title")
+            setInputDescription("");
+            setInputStatus("pending");
+            toast({ title: "To-Do created successfully", status: "success" });
+        } else {
+            toast({ title: "Creation of To-Do failed.", status: "error" });
+        }        
     };
+
     return (
-        <Box w="40%" margin={"0 auto"} display="block">
-            <Stack direction="column">
-                <Center><Heading as="h2">Enter a New Task</Heading></Center>
-                <Input
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <Textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <Select value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option
-                        value={"pending"}
-                        style={{ color: "yellow", fontWeight: "bold" }}
-                    >
-                        Pending ⌛
-                    </option>
-                    <option
-                        value={"completed"}
-                        style={{ color: "green", fontWeight: "bold" }}
-                    >
-                        Completed ✅
-                    </option>
-                </Select>
-                <Button
-                    onClick={() => handleTodoCreate()}
-                    disabled={title.length < 1 || description.length < 1 || isLoading}
-                    colorScheme="teal"
-                    variant="solid"
-                >
-                    Add
-                </Button>
-            </Stack>
-        </Box>
+        <>
+            <Container
+                bg={inputStatus == "pending" ? pendingBgColor : completedBgColor}
+                maxW={"container.xl"}
+            >
+                <Flex justify={"center"} align={"center"} >
+                    <VStack width={"100%"}>
+                        <VStack spacing={2} alignItems={'flex-start'} width={["100%", null, "80%"]}>
+                            <Heading as="h2" mt={4} mb={2} h={"43px"} alignSelf={"center"}>
+                                {headerTitle}
+                            </Heading>
+                            <FormControl  >
+                                <FormLabel ml={3}>Title:</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={inputTitle}
+                                    onChange={
+                                        (e) => {
+                                            setInputTitle(e.target.value);
+                                            setHeaderTitle(e.target.value);
+                                        }
+                                    }
+                                    placeholder="Title"
+                                    border={"solid"}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel id={"description_label"} ml={3}>Description:</FormLabel>
+                                <Textarea
+                                    type="text"
+                                    value={inputDescription}
+                                    onChange={(e) => setInputDescription(e.target.value)}
+                                    placeholder="Description"
+                                    border={"solid"}
+                                    padding={2}
+                                    mb={2}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel id={"status_label"} ml={3}>Status:</FormLabel>
+                                <Select
+                                    border={"solid"}
+                                    bg={inputStatus == "pending" ? "yellow.400" : "green.400"}
+                                    value={inputStatus == "pending" ? "Pending ⌛" : "Completed ✅"}
+                                    color={secondaryTextColor}
+                                    onChange={(e) => setInputStatus((e.target.value == "Pending ⌛" ? "pending" : "completed"))}
+                                >
+                                    <option>Pending ⌛</option>
+                                    <option>Completed ✅</option>
+                                </Select>
+                            </FormControl>
+                        </VStack>
+                        <Center>
+                            <Button
+                                mt={2}
+                                mb={8}
+                                onClick={() => handleTodoCreate()}
+                                w={["100%", null, "20vw"]}
+                                colorScheme={"blue"}
+                            >
+                                Add To-Do
+                            </Button>
+                        </Center>
+                    </VStack>
+                </Flex>
+            </Container>
+        </>
     );
 };
 

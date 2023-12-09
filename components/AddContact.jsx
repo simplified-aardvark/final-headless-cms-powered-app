@@ -1,26 +1,54 @@
-import React from "react";
+import React, { useState } from 'react';
 import {
-    Box,
     Input,
     Button,
-    Stack,
     Select,
     useToast,
     Heading,
     Center,
+    Container,
+    useColorModeValue,
+    Flex,
+    VStack,
+    FormControl,
+    FormLabel,
+    Divider,
+    FormHelperText
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
-import { addContact } from "../api/contact";
+import { addRecord } from '@/api/add-record';
+import { getRelColor } from '../api/contact';
 
 const AddContact = () => {
-    const [firstName, setFirstName] = React.useState("");
-    const [lastName, setLastName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [phone, setPhone] = React.useState("");
-    const [relationship, setRelationship] = React.useState("");
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [headerName, setHeaderName] = useState("Contact Name")
+    const [inputFirstName, setInputFirstName] = useState("");
+    const [inputLastName, setInputLastName] = useState("");
+    const [inputEmail, setInputEmail] = useState("");
+    const [inputPhone, setInputPhone] = useState("");
+    const [inputRelationship, setInputRelationship] = useState("Work");
+
+    const familyBgColor = useColorModeValue("green.300", "green.600");
+    const friendBgColor = useColorModeValue("yellow.200", "yellow.500");
+    const workBgColor = useColorModeValue("red.200", "red.600");
+    const secondaryTextColor = useColorModeValue("black", "gray.600");
+    const helperTextColor = useColorModeValue("black", "gray.100");
+
+    const bgColorSelect = (rel) => {
+        switch (rel) {
+            case "Family":
+                return familyBgColor;
+
+            case "Friend":
+                return friendBgColor;
+
+            default:         //assume Work
+                return workBgColor;
+        }
+    }
+
     const toast = useToast();
     const { isLoggedIn, user } = useAuth();
+
     const handleContactCreate = async () => {
         if (!isLoggedIn) {
             toast({
@@ -31,69 +59,143 @@ const AddContact = () => {
             });
             return;
         }
-        setIsLoading(true);
+
         const contact = {
-            firstName,
-            lastName,
-            email,
-            phone,
-            relationship,
-            userId: user.uid,
+            firstName: inputFirstName,
+            lastName: inputLastName,
+            email: inputEmail,
+            phone: inputPhone,
+            relationship: inputRelationship,
+            user: user.uid,
         };
-        await addContact(contact);
-        setIsLoading(false);
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPhone("");
-        setRelationship("");
-        toast({ title: "Contact created successfully", status: "success" });
+
+        let sendDataResponse = await addRecord("contact", contact);
+
+        if (sendDataResponse) {
+            setInputFirstName(" ");
+            setInputLastName("");
+            setInputEmail("");
+            setInputPhone("");
+            setInputRelationship("Work")
+            setHeaderName("Contact")
+            toast({ title: "Contact created successfully", status: "success" });
+        } else {
+            toast({ title: "Creation of Contact failed.", status: "error" });
+        }
     };
     return (
-        <Box w="40%" margin={"0 auto"} display="block">
-            <Stack direction="column">
-                <Center><Heading as="h2">Enter a New Contact</Heading></Center>
-                <Input
-                    placeholder="First Name"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
-                <Input
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                />
-                <Input
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <Input
-                    placeholder="Phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                />
-                <Input
-                    placeholder="Relationship"
-                    value={relationship}
-                    onChange={(e) => setRelationship(e.target.value)}
-                />
-                <Button
-                    disabled={
-                        firstName.length < 1 
-                        || lastName.length < 1 
-                        || phone < 1
-                        || email < 1
-                        || isLoading
-                    }
-                    onClick={() => handleContactCreate()}
-                    colorScheme="teal"
-                    variant="solid"
-                >
-                    Add
-                </Button>
-            </Stack>
-        </Box>
+        <>
+            <Container
+                bg={bgColorSelect(inputRelationship)}
+                maxW={"container.xl"}
+            >
+                <Flex justify={"center"} align={"center"} >
+                    <VStack width={"100%"}>
+                        <VStack spacing={2} alignItems={'flex-start'} width={["100%", null, "80%"]}>
+                            <Heading as="h2" mt={4} mb={2} h={"43px"} alignSelf={"center"}>
+                                {headerName}
+                            </Heading>
+
+                            <FormControl  >
+                                <FormLabel ml={3}>First Name:</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={inputFirstName}
+                                    onChange={
+                                        (e) => {
+                                            setInputFirstName(e.target.value);
+                                            setHeaderName(e.target.value + " " + inputLastName);
+                                        }
+                                    }
+                                    placeholder="First Name"
+                                    border={"solid"}
+                                />
+                            </FormControl>
+
+                            <FormControl  >
+                                <FormLabel ml={3}>Last Name:</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={inputLastName}
+                                    onChange={
+                                        (e) => {
+                                            setInputLastName(e.target.value);
+                                            setHeaderName(inputFirstName + " " + e.target.value);
+                                        }
+                                    }
+                                    placeholder="Last"
+                                    border={"solid"}
+                                />
+                            </FormControl>
+
+                            <Divider />
+
+                            <FormControl  >
+                                <FormLabel ml={3}>Email:</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={inputEmail}
+                                    onChange={(e) => setInputEmail(e.target.value)}
+                                    placeholder="Email"
+                                    border={"solid"}
+                                />
+                                <FormHelperText
+                                    ml={3}
+                                    color={helperTextColor}
+                                >Example: blank@empty.com</FormHelperText>
+                            </FormControl>
+
+                            <Divider />
+
+                            <FormControl  >
+                                <FormLabel ml={3}>Phone:</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={inputPhone}
+                                    onChange={(e) => setInputPhone(e.target.value)}
+                                    placeholder="Phone"
+                                    border={"solid"}
+                                />
+                                <FormHelperText
+                                    ml={3}
+                                    color={helperTextColor}
+                                >Format: (xxx) xxx-xxxx</FormHelperText>
+                            </FormControl>
+
+
+                            <Divider />
+
+                            <FormControl>
+                                <FormLabel id={"status_label"} ml={3}>Relationship:</FormLabel>
+                                <Select
+                                    border={"solid"}
+                                    bg={getRelColor(inputRelationship)}
+                                    color={secondaryTextColor}
+                                    value={inputRelationship}
+                                    onChange={(e) => setInputRelationship(e.target.value)}
+                                >
+                                    <option>Family</option>
+                                    <option>Friend</option>
+                                    <option>Work</option>
+                                </Select>
+                            </FormControl>
+                        </VStack>
+                        <Center>
+                            <Button
+                                mt={2}
+                                mb={8}
+                                onClick={() => handleContactCreate()}
+                                w={["100%", null, "20vw"]}
+                                colorScheme={"blue"}
+                            >
+                                Add Contact
+                            </Button>
+                        </Center>
+                    </VStack>
+                </Flex>
+            </Container>        
+        </>
     );
 };
+
 export default AddContact;

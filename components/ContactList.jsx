@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
     Badge,
     Box,
@@ -8,18 +9,16 @@ import {
     Center,
     useColorModeValue,
 } from "@chakra-ui/react";
-
-import React from "react";
 import useAuth from "../hooks/useAuth";
 import { FaTrash } from "react-icons/fa";
-import { deleteContact } from "../api/contact";
 import { doUseEffect } from "@/api/use-effect";
+import { deleteRecord } from '@/api/delete-record';
 
 
 const ContactList = () => {
     const secondaryTextColor = useColorModeValue("black", "white");
 
-    const [contacts, setContacts] = React.useState([]);
+    const [contacts, setContacts] = useState([]);
 
     const familyBgColor = useColorModeValue("green.300", "green.600");
     const friendBgColor = useColorModeValue("yellow.200", "yellow.500");
@@ -47,7 +46,7 @@ const ContactList = () => {
 
     const handleContactDelete = async (id) => {
         if (confirm("Are you sure you wanna delete this contact?")) {
-            deleteContact(id);
+            deleteRecord(id, "contact");
             toast({ title: "Contact deleted successfully", status: "success" });
         }
     };
@@ -93,7 +92,7 @@ const ContactList = () => {
                                 }}
                                 float="right"
                                 size="xs"
-                                onClick={() => handleContactDelete(todo.id)}
+                                onClick={() => handleContactDelete(contact.id)}
                             >
                                 <FaTrash />
                             </Badge>

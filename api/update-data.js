@@ -3,7 +3,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-const sendData = async (docId, coll, data) => {
+const updateData = async (docId, coll, data) => {
     const docRef = doc(db, coll, docId);
     let isUpdated = false;
 
@@ -24,4 +24,4 @@ const sendData = async (docId, coll, data) => {
     return isUpdated;
 }
 
-export {sendData}
+export {updateData}

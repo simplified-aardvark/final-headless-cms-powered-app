@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Badge,
     Box,
@@ -8,11 +9,12 @@ import {
     Center,
     useColorModeValue
 } from "@chakra-ui/react";
-import React from "react";
 import useAuth from "../hooks/useAuth";
 import { FaTrash } from "react-icons/fa"; 
-import { deleteEvent, findStatus, formatDateAtTime } from "../api/calendar-event";
+import { findStatus, formatDateAtTime } from "../api/calendar-event";
 import { doUseEffect } from "@/api/use-effect";
+import { deleteRecord } from '@/api/delete-record';
+
 
 
 const CalendarEventList = () => {
@@ -45,7 +47,7 @@ const CalendarEventList = () => {
 
     const handleEventDelete = async (id) => {
         if (confirm("Are you sure you wanna delete this calendar event?")) {
-            deleteEvent(id);
+            deleteRecord(id, "event");
             toast({ title: "Calendar event deleted successfully", status: "success" });
         }
     };
@@ -56,7 +58,7 @@ const CalendarEventList = () => {
                 <Heading as="h1" mb={10}>Calendar Events</Heading>
             </Center>
 
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            <SimpleGrid columns={{ base: 1,  md: 2, lg: 3 }} spacing={8}>
                 {calendar_events &&
                 calendar_events.map((calendar_event) => (
                     <Box

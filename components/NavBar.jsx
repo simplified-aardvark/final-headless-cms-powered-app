@@ -1,4 +1,5 @@
 import { React } from 'react';
+import { FaRegUser, FaUser } from "react-icons/fa";
 import {
   Text,
   Box,
@@ -19,8 +20,6 @@ import {
   Stack,
   Spacer,
 } from '@chakra-ui/react';
-
-
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaGoogle, FaMoon, FaSun } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
@@ -28,10 +27,11 @@ import { auth } from "../firebase";
 import { handleAuth } from '@/api/auth';
 
 
-
-
-
 const Links = [
+  {
+    title: "Lists",
+    ref: "/"
+  },
   {
     "title": "Add To-Do",
     ref: "/add-todo"
@@ -43,11 +43,8 @@ const Links = [
   {
     title: "Add Contact",
     ref: "/add-contact"
-  },
-  {
-    title: "List All",
-    ref: "/"
   }
+  
 ];
 
 const NavLink = ({ children }) => (
@@ -68,6 +65,7 @@ export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoggedIn, user } = useAuth();
   const { toggleColorMode, colorMode } = useColorMode();
+  let icons = useColorModeValue(FaRegUser, FaUser)
 
   return (
     <>
@@ -102,10 +100,7 @@ export default function NavBar() {
                 cursor={'pointer'}
                 minW={0}>
                 <Avatar
-                  size={'sm'}
-                  src={
-                    'https://web.archive.org/web/20230521174951/https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
+                  size={["sm",'md']}
                 />
               </MenuButton>
               <MenuList>
@@ -113,7 +108,7 @@ export default function NavBar() {
 
                       {colorMode == "dark" ? <FaSun /> : <FaMoon />}
                       <Spacer/>
-                      {colorMode == "dark" ? "Switch to Light Mode" : "Switch to Light Mode"}
+                      {colorMode == "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
                 </MenuItem>
                 <MenuDivider />
                 {isLoggedIn && (
@@ -144,7 +139,7 @@ export default function NavBar() {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink key={link.ref}>{link}</NavLink>
               ))}
             </Stack>
           </Box>

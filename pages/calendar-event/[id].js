@@ -12,27 +12,26 @@ import {
     VStack,
     FormControl,
     FormLabel,
-    Select,
     useColorModeValue,
     Textarea
 } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
-import { sendData } from '@/api/send-data';
-import { findStatus, formatDateAtTime } from "../../api/calendar-event";
+import { updateData } from '@/api/update-data';
+import { findStatus } from "../../api/calendar-event";
 import { serverSideFunc } from '@/api/server-side-func';
 
 
 const EventItem = ({ itemData }) => {
     const [inputTitle, setInputTitle] = useState(itemData.title);
     const [inputDescription, setInputDescription] = useState(itemData.description);
-    const [inputStatus, setStatus] = useState(itemData.status);
+    const [inputEventDate, setInputEventDate] = useState(itemData.event_date);
+    const [statusText, setStatusText] = useState(findStatus(itemData.event_date));
 
     const [updatedOn, setUpdatedOn] = useState(itemData.updatedOn);
 
     const upcomingBgColor = useColorModeValue("blue.200", "blue.600");
     const passedBgColor = useColorModeValue("purple.200", "purple.600");
     const todayBgColor = useColorModeValue("green.200", "green.600");
-    const secondaryTextColor = useColorModeValue("black", "gray.600");
 
     const bgColorSelect = (status) => {
         switch (status) {
@@ -41,7 +40,7 @@ const EventItem = ({ itemData }) => {
 
             case "Already Passed":
                 return passedBgColor;
-        
+
             default:         //assume Today
                 return todayBgColor;
         }
@@ -57,74 +56,78 @@ const EventItem = ({ itemData }) => {
     let data = {
         title: inputTitle,
         description: inputDescription,
-        status: inputStatus,
+        event_date: inputEventDate,
         updatedOn: updatedOn
     };
 
-    const hondleTodoUpdate = async () => {
+    const hondleEventUpdate = async () => {
         data.updatedOn = new Date().getTime();
-        let sendDataResponse = await sendData(itemData.docId, "todo", data)
+        let sendDataResponse = await updateData(itemData.docId, "event", data)
 
         if (sendDataResponse) {
             setUpdatedOn(data.updatedOn);
-            toast({ title: "Todo updated successfully.", status: "success" });
+            toast({ title: "Event updated successfully.", status: "success" });
         } else {
-            toast({ title: "Todo failed to update.", status: "success" });
-        }        
+            toast({ title: "Event failed to update.", status: "error" });
+        }
     }
 
     return (
         <>
             <Container
-                bg={inputStatus == "pending" ? pendingBgColor : completedBgColor}
+                bg={bgColorSelect(statusText)}
                 maxW={"container.xl"}
             >
                 <Flex justify={"center"} align={"center"} >
                     <VStack width={"100%"}>
-                            <VStack spacing={2} alignItems={'flex-start'} width={["100%", null, "80%"]}>
-                                <Heading as="h2" mt={4} mb={2} alignSelf={"center"}>
-                                    {inputTitle}
-                                </Heading>
-                                <FormControl  >
-                                    <FormLabel ml={3}>Title:</FormLabel>
-                                    <Input
-                                        type="text"
-                                        value={inputTitle}
-                                        onChange={(e) => setInputTitle(e.target.value)}
-                                        placeholder="Title"
-                                        border={"solid"}
-                                    />
-                                </FormControl>
-                                <FormControl>
-                                    <FormLabel id={"description_label"}  ml={3}>Description:</FormLabel>
-                                    <Textarea
-                                        type="text"
-                                        value={inputDescription}
-                                        onChange={(e) => setInputDescription(e.target.value)}
-                                        placeholder="Description"
-                                        border={"solid"}
-                                        padding={2}
-                                        mb={2}
-                                    />
-                                </FormControl>
-                                <FormControl>
-                                <FormLabel id={"status_label"}  ml={3}>Status:</FormLabel>
-                                    <Select 
-                                        border={"solid"}
-                                        bg={inputStatus == "pending" ? "yellow.400" : "green.400"}
-                                        value={inputStatus == "pending" ? "Pending ⌛" : "Completed ✅"}
-                                        color={secondaryTextColor}
-                                        onChange = { (e) => setStatus((e.target.value == "Pending ⌛" ? "pending" : "completed")) }
-                                    >
-                                        <option>Pending ⌛</option>
-                                        <option>Completed ✅</option>
-                                    </Select>   
-                                </FormControl>
-                            </VStack>
+                        <VStack spacing={2} alignItems={'flex-start'} width={["100%", null, "80%"]}>
+                            <Heading as="h2" mt={4} mb={2} alignSelf={"center"}>
+                                {inputTitle}
+                            </Heading>
+                            <FormControl  >
+                                <FormLabel ml={3}>Title:</FormLabel>
+                                <Input
+                                    type="text"
+                                    value={inputTitle}
+                                    onChange={(e) => setInputTitle(e.target.value)}
+                                    placeholder="Title"
+                                    border={"solid"}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel id={"description_label"} ml={3}>Description:</FormLabel>
+                                <Textarea
+                                    type="text"
+                                    value={inputDescription}
+                                    onChange={(e) => setInputDescription(e.target.value)}
+                                    placeholder="Description"
+                                    border={"solid"}
+                                    padding={2}
+                                    mb={2}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <Input
+                                    size="md"
+                                    type="datetime-local"
+                                    value={inputEventDate}
+                                    border={'solid'}
+                                    onChange={
+                                        (e) => {
+                                            setStatusText(findStatus(e.target.value));
+                                            setInputEventDate(e.target.value)
+                                        }
+                                    }
+                                />
+                                <Center>
+                                    <Text height={"6"} mt={3}>{statusText}</Text>
+                                </Center>
+                            </FormControl>
+                        </VStack>
                         <Center>
                             <Button
                                 mt={2}
-                                onClick={() => hondleTodoUpdate()}
+                                onClick={() => hondleEventUpdate()}
                                 w={["100%", null, "20vw"]}
                                 colorScheme={"blue"}
                             >
@@ -148,7 +151,7 @@ const EventItem = ({ itemData }) => {
                     </VStack>
                 </Flex>
 
-                
+
             </Container>
         </>
     );
@@ -158,6 +161,5 @@ const EventItem = ({ itemData }) => {
 export async function getServerSideProps(context) {
     return serverSideFunc(context, "event");
 }
-
 
 export default EventItem;

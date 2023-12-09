@@ -17,7 +17,7 @@ import {
     Textarea
 } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
-import { sendData } from '@/api/send-data';
+import { updateData } from '@/api/update-data';
 import { serverSideFunc } from '@/api/server-side-func';
 
 
@@ -48,13 +48,13 @@ const TodoItem = ({ itemData }) => {
 
     const hondleTodoUpdate = async () => {
         data.updatedOn = new Date().getTime();
-        let sendDataResponse = await sendData(itemData.docId, "todo", data)
+        let sendDataResponse = await updateData(itemData.docId, "todo", data)
 
         if (sendDataResponse) {
             setUpdatedOn(data.updatedOn);
-            toast({ title: "Todo updated successfully.", status: "success" });
+            toast({ title: "To-Do updated successfully.", status: "success" });
         } else {
-            toast({ title: "Todo failed to update.", status: "success" });
+            toast({ title: "To-Do failed to update.", status: "error" });
         }        
     }
 

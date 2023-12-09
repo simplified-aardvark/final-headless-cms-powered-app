@@ -18,7 +18,7 @@ import {
     Divider
 } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
-import { sendData } from '@/api/send-data';
+import { updateData } from '@/api/update-data';
 import { serverSideFunc } from '@/api/server-side-func';
 import { getRelColor } from '@/api/contact';
 
@@ -69,13 +69,13 @@ const ContactItem = ({itemData}) => {
 
     const hondleContactUpdate = async () => {
         data.updatedOn = new Date().getTime();
-        let sendDataResponse = await sendData(itemData.docId, "contact", data)
+        let sendDataResponse = await updateData(itemData.docId, "contact", data)
 
         if (sendDataResponse) {
             setUpdatedOn(data.updatedOn);
             toast({ title: "Contact updated successfully.", status: "success" });
         } else {
-            toast({ title: "Contact failed to update.", status: "success" });
+            toast({ title: "Contact failed to update.", status: "error" });
         }        
     }
 
