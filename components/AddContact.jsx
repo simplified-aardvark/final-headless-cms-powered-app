@@ -97,7 +97,7 @@ const AddContact = () => {
                             </Heading>
 
                             <FormControl  >
-                                <FormLabel ml={3}>First Name:</FormLabel>
+                                <FormLabel ml={3}>First Name (required):</FormLabel>
                                 <Input
                                     type="text"
                                     value={inputFirstName}
@@ -148,7 +148,7 @@ const AddContact = () => {
                             <Divider />
 
                             <FormControl  >
-                                <FormLabel ml={3}>Phone:</FormLabel>
+                                <FormLabel ml={3}>Phone (required):</FormLabel>
                                 <Input
                                     type="text"
                                     value={inputPhone}

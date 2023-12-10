@@ -73,7 +73,7 @@ const AddTodo = () => {
                                 {headerTitle}
                             </Heading>
                             <FormControl  >
-                                <FormLabel ml={3}>Title:</FormLabel>
+                                <FormLabel ml={3}>Title (required):</FormLabel>
                                 <Input
                                     type="text"
                                     value={inputTitle}

@@ -88,12 +88,12 @@ const ContactItem = ({itemData}) => {
                 <Flex justify={"center"} align={"center"} >
                     <VStack width={"100%"}>
                             <VStack spacing={2} alignItems={'flex-start'} width={["100%", null, "80%"]}>
-                                <Heading as="h2" mt={4} mb={2} alignSelf={"center"}>
+                                <Heading as="h2" mt={4} mb={2} h={"43px"} alignSelf={"center"}>
                                     {inputFirstName + " " + inputLastName}
                                 </Heading>
                                 
                                 <FormControl  >
-                                    <FormLabel ml={3}>First Name:</FormLabel>
+                                    <FormLabel ml={3}>First Name (required):</FormLabel>
                                     <Input
                                         type="text"
                                         value={inputFirstName}
@@ -134,7 +134,7 @@ const ContactItem = ({itemData}) => {
                                 <Divider />
 
                                 <FormControl  >
-                                    <FormLabel ml={3}>Phone:</FormLabel>
+                                    <FormLabel ml={3}>Phone (required):</FormLabel>
                                     <Input
                                         type="text"
                                         value={inputPhone}
@@ -171,6 +171,7 @@ const ContactItem = ({itemData}) => {
                                 onClick={() => hondleContactUpdate()}
                                 w={["100%", null, "20vw"]}
                                 colorScheme={"blue"}
+                                isDisabled = {inputTitle == "" || inputPhone == ""}
                             >
                                 Update
                             </Button>

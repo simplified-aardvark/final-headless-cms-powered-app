@@ -81,11 +81,11 @@ const EventItem = ({ itemData }) => {
                 <Flex justify={"center"} align={"center"} >
                     <VStack width={"100%"}>
                         <VStack spacing={2} alignItems={'flex-start'} width={["100%", null, "80%"]}>
-                            <Heading as="h2" mt={4} mb={2} alignSelf={"center"}>
+                            <Heading as="h2" mt={4} mb={2} h={"43px"} alignSelf={"center"}>
                                 {inputTitle}
                             </Heading>
                             <FormControl  >
-                                <FormLabel ml={3}>Title:</FormLabel>
+                                <FormLabel ml={3}>Title (required):</FormLabel>
                                 <Input
                                     type="text"
                                     value={inputTitle}
@@ -130,6 +130,7 @@ const EventItem = ({ itemData }) => {
                                 onClick={() => hondleEventUpdate()}
                                 w={["100%", null, "20vw"]}
                                 colorScheme={"blue"}
+                                isDisabled = {inputTitle == ""}
                             >
                                 Update
                             </Button>
