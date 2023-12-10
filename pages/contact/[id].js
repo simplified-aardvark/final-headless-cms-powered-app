@@ -171,7 +171,7 @@ const ContactItem = ({itemData}) => {
                                 onClick={() => hondleContactUpdate()}
                                 w={["100%", null, "20vw"]}
                                 colorScheme={"blue"}
-                                isDisabled = {inputTitle == "" || inputPhone == ""}
+                                isDisabled = {inputFirstName == "" || inputPhone == ""}
                             >
                                 Update
                             </Button>
