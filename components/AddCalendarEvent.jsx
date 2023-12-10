@@ -29,7 +29,6 @@ const AddCalendarEvent = () => {
     const upcomingBgColor = useColorModeValue("blue.200", "blue.600");
     const passedBgColor = useColorModeValue("purple.200", "purple.600");
     const todayBgColor = useColorModeValue("green.200", "green.600");
-    const secondaryTextColor = useColorModeValue("black", "gray.600");
 
     const bgColorSelect = (status) => {
         switch (status) {
@@ -140,6 +139,7 @@ const AddCalendarEvent = () => {
                                 onClick={() => handleEventCreate()}
                                 w={["100%", null, "20vw"]}
                                 colorScheme={"blue"}
+                                isDisabled = {inputTitle == ""}
                             >
                                 Create Event
                             </Button>

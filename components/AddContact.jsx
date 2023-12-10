@@ -187,6 +187,7 @@ const AddContact = () => {
                                 onClick={() => handleContactCreate()}
                                 w={["100%", null, "20vw"]}
                                 colorScheme={"blue"}
+                                isDisabled = { inputFirstName == "" }
                             >
                                 Add Contact
                             </Button>

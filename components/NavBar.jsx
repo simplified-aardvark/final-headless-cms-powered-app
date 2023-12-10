@@ -1,5 +1,4 @@
 import { React } from 'react';
-import { FaRegUser, FaUser } from "react-icons/fa";
 import {
   Text,
   Box,
@@ -65,7 +64,6 @@ export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoggedIn, user } = useAuth();
   const { toggleColorMode, colorMode } = useColorMode();
-  let icons = useColorModeValue(FaRegUser, FaUser)
 
   return (
     <>
@@ -80,7 +78,7 @@ export default function NavBar() {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Box ml={[0, 0, 10]} fontWeight={800}>
-              <a href="/">THE APP</a>
+              <Link href="/">THE APP</Link>
             </Box>
             <HStack
               as={'nav'}

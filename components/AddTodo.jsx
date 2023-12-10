@@ -15,7 +15,6 @@ import {
     FormLabel,
 } from "@chakra-ui/react";
 import useAuth from "../hooks/useAuth";
-import { addTodo } from "../api/todo";
 import { addRecord } from '@/api/add-record';
 
 const AddTodo = () => {
@@ -121,6 +120,7 @@ const AddTodo = () => {
                                 onClick={() => handleTodoCreate()}
                                 w={["100%", null, "20vw"]}
                                 colorScheme={"blue"}
+                                isDisabled = {inputTitle == ""}
                             >
                                 Add To-Do
                             </Button>

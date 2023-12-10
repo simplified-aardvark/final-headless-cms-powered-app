@@ -58,7 +58,7 @@ const ContactList = () => {
                 <Heading as="h1" mb={10}>Contacts</Heading>
             </Center>
 
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            <SimpleGrid columns={{ base: 1,  md: 2, lg: 3 }} spacing={8}>
                 {contacts &&
                 contacts.map((contact) => (
                     <Box
