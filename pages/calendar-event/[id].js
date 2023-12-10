@@ -132,7 +132,7 @@ const EventItem = ({ itemData }) => {
                                 colorScheme={"blue"}
                                 isDisabled = {inputTitle == ""}
                             >
-                                Update
+                                Update Event
                             </Button>
                         </Center>
                         <HStack mt={4}>

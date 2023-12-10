@@ -141,7 +141,7 @@ const AddCalendarEvent = () => {
                                 colorScheme={"blue"}
                                 isDisabled = {inputTitle == ""}
                             >
-                                Create Event
+                                Add Event
                             </Button>
                         </Center>
                     </VStack>

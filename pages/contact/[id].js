@@ -173,7 +173,7 @@ const ContactItem = ({itemData}) => {
                                 colorScheme={"blue"}
                                 isDisabled = {inputFirstName == "" || inputPhone == ""}
                             >
-                                Update
+                                Update Contact
                             </Button>
                         </Center>
                         <HStack mt={4}>

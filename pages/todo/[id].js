@@ -114,7 +114,7 @@ const TodoItem = ({ itemData }) => {
                                 colorScheme={"blue"}
                                 isDisabled = {inputTitle == ""}
                             >
-                                Update
+                                Update To-Do
                             </Button>
                         </Center>
                         <HStack mt={4}>
