@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
     return (
         <ChakraProvider>
             <NavBar border={"solid black"} />
-            <Container maxW={"7xl"} bg={bgColor} h={"100vh"}
+            <Container maxW={"7xl"} bg={bgColor} h={[null, ,"100vh"]}
                 boxShadow="2xl"
                 shadow={"dark-lg"}
                 padding={0}

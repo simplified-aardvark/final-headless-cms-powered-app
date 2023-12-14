@@ -21,27 +21,24 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaGoogle, FaMoon, FaSun } from "react-icons/fa";
-import useAuth from "../hooks/useAuth";
-import { auth } from "../firebase";
-import { handleAuth } from '@/api/auth';
 
 
 const Links = [
   {
-    title: "Lists",
+    title: "Home",
     ref: "/"
   },
   {
-    "title": "Add To-Do",
-    ref: "/add-todo"
+    title: "Contacts",
+    ref: "/contacts"
   },
   {
-    title: "Add Event",
-    ref: "/add-calendar-event"
+    "title": "Products",
+    ref: "/products"
   },
   {
-    title: "Add Contact",
-    ref: "/add-contact"
+    title: "Companies",
+    ref: "/companies"
   }
   
 ];
@@ -62,7 +59,6 @@ const NavLink = ({ children }) => (
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoggedIn, user } = useAuth();
   const { toggleColorMode, colorMode } = useColorMode();
 
   return (
@@ -78,7 +74,7 @@ export default function NavBar() {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Box ml={[0, 0, 10]} fontWeight={800}>
-              <Link href="/">THE APP</Link>
+              <Link href="/">HEADLESS</Link>
             </Box>
             <HStack
               as={'nav'}
@@ -109,21 +105,21 @@ export default function NavBar() {
                       {colorMode == "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
                 </MenuItem>
                 <MenuDivider />
-                {isLoggedIn && (
+                {true && (
                   <>
                     <MenuItem>
-                      <Text color="green.500">{user.email}</Text>
+                      <Text color="green.500">Email</Text>
                     </MenuItem>
                     <MenuItem>
-                        <Link color="red.500" onClick={() => auth.signOut()}>
+                        <Link color="red.500">
                           Logout
                         </Link>
                     </MenuItem>
                   </>
                 )}
                 <>
-                  {!isLoggedIn && (
-                  <MenuItem lefticon={<FaGoogle />} onClick={() => handleAuth()}>
+                  {!true && (
+                  <MenuItem lefticon={<FaGoogle />}>
                     Login with Google
                   </MenuItem>
                   )}

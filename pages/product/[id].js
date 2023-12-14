@@ -10,10 +10,10 @@ import {
     StackDivider,
 
 } from "@chakra-ui/react";
-import { get_all_contact_ids, get_contact_data } from '../../lib/contacts_data';
+import { get_all_product_ids, get_product_data } from '../../lib/products_data';
 
 export async function getStaticPaths() {
-    const paths = await get_all_contact_ids();
+    const paths = await get_all_product_ids();
     //   console.log("HERE: "+ paths);
     return {
         paths,
@@ -24,7 +24,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
     // Fetch necessary data for the blog post using params.id
-    const item_data = await get_contact_data(params.id);
+    const item_data = await get_product_data(params.id);
 
     return {
         props: {
@@ -35,43 +35,43 @@ export async function getStaticProps({ params }) {
 }
 
 
-export default function ContactItem({ item_data, }) {
+export default function productItem({ item_data, }) {
     return (
 
 
         <>
             <Head>
-                <title>{item_data.first_name + " " + item_data.last_name}</title>
+                <title>{item_data.product_name}</title>
             </Head>
             <Card>
                 <CardHeader>
-                    <Heading size='md'>{item_data.first_name + " " + item_data.last_name}</Heading>
+                    <Heading size='md'>{item_data.product_name}</Heading>
                 </CardHeader>
 
                 <CardBody>
                     <Stack divider={<StackDivider />} spacing='4'>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Phone 
+                                 Description
                             </Heading>
                             <Text pt='2' fontSize='sm'>
-                                {item_data.phone}
+                                {item_data.post_title}
                             </Text>
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Email
+                                Cost
                             </Heading>
                             <Text pt='2' fontSize='sm'>
-                                {item_data.email}
+                                {item_data.product_cost}
                             </Text>
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Relationship
+                                Product Number
                             </Heading>
                             <Text pt='2' fontSize='sm'>
-                                {item_data.relationship}
+                                {item_data.product_number}
                             </Text>
                         </Box>
                     </Stack>
