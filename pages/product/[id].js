@@ -45,33 +45,35 @@ export default function productItem({ item_data, }) {
             </Head>
             <Card>
                 <CardHeader>
-                    <Heading size='md'>{item_data.product_name}</Heading>
+                    <Heading size='md' dangerouslySetInnerHTML={{__html: item_data.product_name}}>
+                        {/* {item_data.product_name} */}
+                    </Heading>
                 </CardHeader>
 
                 <CardBody>
                     <Stack divider={<StackDivider />} spacing='4'>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                 Description
+                                 Description:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.post_title}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.post_title}}>
+                                {/* {item_data.post_title} */}
                             </Text>
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Cost
+                                Cost:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.product_cost}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.product_cost}}>
+                                {/* {item_data.product_cost} */}
                             </Text>
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Product Number
+                                Product Number:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.product_number}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.product_number}}>
+                                {/* {item_data.product_number} */}
                             </Text>
                         </Box>
                     </Stack>

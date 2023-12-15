@@ -45,33 +45,35 @@ export default function ContactItem({ item_data, }) {
             </Head>
             <Card>
                 <CardHeader>
-                    <Heading size='md'>{item_data.first_name + " " + item_data.last_name}</Heading>
+                    <Heading size='md' dangerouslySetInnerHTML={{__html: item_data.first_name + " " + item_data.last_name}}>
+                        {/* {item_data.first_name + " " + item_data.last_name} */}
+                    </Heading>
                 </CardHeader>
 
                 <CardBody>
                     <Stack divider={<StackDivider />} spacing='4'>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Phone 
+                                Phone: 
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.phone}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.phone}}>
+                                {/* {item_data.phone} */}
                             </Text>
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Email
+                                Email:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.email}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.email}}>
+                                {/* {item_data.email} */}
                             </Text>
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Relationship
+                                Relationship:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.relationship}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.relationship}}>
+                                {/* {item_data.relationship} */}
                             </Text>
                         </Box>
                     </Stack>

@@ -45,7 +45,9 @@ export default function productItem({ item_data, }) {
             </Head>
             <Card>
                 <CardHeader>
-                    <Heading size='md'>{item_data.company_name}</Heading>
+                    <Heading size='md' dangerouslySetInnerHTML={{__html: item_data.company_name}}>
+                        {/* {item_data.company_name} */}
+                    </Heading>
                 </CardHeader>
 
                 <CardBody>
@@ -54,27 +56,27 @@ export default function productItem({ item_data, }) {
                             <Heading size='xs' textTransform='uppercase'>
                                 CEO:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.ceo}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.ceo}}>
+                                {/* {item_data.ceo} */}
                             </Text>
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
                                 Headquarters:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                {item_data.hq}
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.hq}}>
+                                {/* {item_data.hq} */}
                             </Text>
                         </Box>
                         <Box>
-                            <Heading size='xs' textTransform='uppercase'>
+                            <Heading size='xs' textTransform='uppercase' >
                                 Website:
                             </Heading>
-                            <Text pt='2' fontSize='sm'>
-                                <a href={'https://www.' + item_data.website} target="_blank">
-                                    {item_data.website}
-                                </a>
+                            <a href={'https://www.' + item_data.website} target="_blank">
+                            <Text pt='2' fontSize='sm' dangerouslySetInnerHTML={{__html: item_data.website}}>
+                                    {/* {item_data.website} */}
                             </Text>
+                            </a>
                         </Box>
                     </Stack>
                 </CardBody>
