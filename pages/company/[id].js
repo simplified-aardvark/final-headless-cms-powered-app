@@ -52,7 +52,7 @@ export default function productItem({ item_data, }) {
                     <Stack divider={<StackDivider />} spacing='4'>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                 CEO:
+                                CEO:
                             </Heading>
                             <Text pt='2' fontSize='sm'>
                                 {item_data.ceo}
@@ -60,10 +60,20 @@ export default function productItem({ item_data, }) {
                         </Box>
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Headquarters
+                                Headquarters:
                             </Heading>
                             <Text pt='2' fontSize='sm'>
                                 {item_data.hq}
+                            </Text>
+                        </Box>
+                        <Box>
+                            <Heading size='xs' textTransform='uppercase'>
+                                Website:
+                            </Heading>
+                            <Text pt='2' fontSize='sm'>
+                                <a href={'https://www.' + item_data.website} target="_blank">
+                                    {item_data.website}
+                                </a>
                             </Text>
                         </Box>
                     </Stack>

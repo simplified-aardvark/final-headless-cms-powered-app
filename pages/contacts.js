@@ -9,6 +9,7 @@ import {
     CardBody,
     Stack,
     StackDivider,
+    Spacer,
 
 } from "@chakra-ui/react";
 import { get_sorted_contact_list } from '../lib/contacts_data';
@@ -30,9 +31,11 @@ export default function Contacts({ contact_data }) {
             <Head>
                 <title>Contacts</title>
             </Head>
+
             <>
-                <Heading align={'center'} pt={4}>Contacts</Heading>
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={[2, , 4]} gap={[2, , 6]} pt={4} mb={4}>
+                <Heading align={'center'} pt={4} mb={4}>Contacts</Heading>
+                <hr></hr>
+                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={[2, , 4]} gap={[2, , 6]} pt={4} my={4}>
                     {contact_data &&
                         contact_data.map((contact) => (
                             <Box

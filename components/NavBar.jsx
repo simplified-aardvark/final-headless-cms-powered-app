@@ -23,7 +23,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { FaGoogle, FaMoon, FaSun } from "react-icons/fa";
 
 
-const Links = [
+const links = [
   {
     title: "Home",
     ref: "/"
@@ -40,7 +40,6 @@ const Links = [
     title: "Companies",
     ref: "/companies"
   }
-  
 ];
 
 const NavLink = ({ children }) => (
@@ -80,12 +79,18 @@ export default function NavBar() {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
+              {links.map((link) => (
                 <NavLink key={link.ref}>{link}</NavLink>
               ))}
             </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
+          <Box alignSelf={"right"} onClick={() => toggleColorMode()}>
+
+            {colorMode == "dark" ? <FaSun size={34}/> : <FaMoon size={34}/>}
+            {/* <Spacer /> */}
+            {/* {colorMode == "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"} */}
+          </Box>
+          {/* <Flex alignItems={'center'}>
             <Menu>
               <MenuButton
                 as={Button}
@@ -94,15 +99,15 @@ export default function NavBar() {
                 cursor={'pointer'}
                 minW={0}>
                 <Avatar
-                  size={["sm",'md']}
+                  size={["sm", 'md']}
                 />
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => toggleColorMode()}>
 
-                      {colorMode == "dark" ? <FaSun /> : <FaMoon />}
-                      <Spacer/>
-                      {colorMode == "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                  {colorMode == "dark" ? <FaSun /> : <FaMoon />}
+                  <Spacer />
+                  {colorMode == "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
                 </MenuItem>
                 <MenuDivider />
                 {true && (
@@ -111,22 +116,22 @@ export default function NavBar() {
                       <Text color="green.500">Email</Text>
                     </MenuItem>
                     <MenuItem>
-                        <Link color="red.500">
-                          Logout
-                        </Link>
+                      <Link color="red.500">
+                        Logout
+                      </Link>
                     </MenuItem>
                   </>
                 )}
                 <>
                   {!true && (
-                  <MenuItem lefticon={<FaGoogle />}>
-                    Login with Google
-                  </MenuItem>
+                    <MenuItem lefticon={<FaGoogle />}>
+                      Login with Google
+                    </MenuItem>
                   )}
                 </>
               </MenuList>
             </Menu>
-          </Flex>
+          </Flex> */}
         </Flex>
 
         {isOpen ? (

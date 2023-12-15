@@ -30,8 +30,9 @@ export default function products({ product_data }) {
                 <title>Products</title>
             </Head>
             <>
-                <Heading align={'center'} pt={4}>Products</Heading>
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={[2, , 4]} gap={[2, , 6]} pt={4} mb={4}>
+                <Heading align={'center'} pt={4} mb={4}>Products</Heading>
+                <hr></hr>
+                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={[2, , 4]} gap={[2, , 6]} pt={4} my={4}>
                     {product_data &&
                         product_data.map((product) => (
                             <Box
